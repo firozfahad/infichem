@@ -13,10 +13,18 @@ document.addEventListener('DOMContentLoaded', () => {
 
       const content = document.createElement('div');
       content.className = 'puzzle-content';
-      content.innerHTML = generateWeirdChemistryContent();
+      const puzzleText = generateWeirdChemistryContent();
+      content.innerHTML = puzzleText;
+
+      const downloadLink = document.createElement('a');
+      downloadLink.className = 'download-link';
+      downloadLink.href = createDownloadLink(puzzleText);
+      downloadLink.download = `Puzzle_${puzzleCount}.txt`;
+      downloadLink.innerText = 'Download Puzzle';
 
       puzzle.appendChild(title);
       puzzle.appendChild(content);
+      puzzle.appendChild(downloadLink);
       puzzleContainer.appendChild(puzzle);
   }
 
@@ -31,6 +39,11 @@ document.addEventListener('DOMContentLoaded', () => {
       ];
       const randomIndex = Math.floor(Math.random() * weirdConcepts.length);
       return weirdConcepts[randomIndex];
+  }
+
+  function createDownloadLink(text) {
+      const blob = new Blob([text], { type: 'text/plain' });
+      return URL.createObjectURL(blob);
   }
 
   // Create puzzles infinitely with a delay of 1 second
